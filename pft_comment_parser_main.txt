@@ -21,9 +21,30 @@ Ultimately, we want to return the:
 
 	NOTE THAT WE WANT TO BE ABLE TO SORT BY THE METRIC
 
+	I THINK KEEPING A HASH IS THE RIGHT WAY TO STORE DATA
+
 Crawling
-We will need to crawl pages
-Do we crawl the entire PFT site?
-	
+	We will need to crawl pages
+	Do we crawl the entire PFT site?
+	How do we damp the crawling?
+	Prevent outside links from being hit?
+
+WRITE OUT HOW THE THING WORKS
+	- start with seed page, maybe a story or a kind of main page
+	- amass a list of links that are the kind of links you want to go to
+		^ stories and posts about football, with comments
+	- go to the link and return the contents of the page (as HTML?)
+	- pick out the contents of the page that you want (per comment)
+		- metric
+		- comment
+		- username
+		- story headline
+	- store this information (presumably in a hash)
+	- put the link of the page in the links crawled list
+	- return the hash sorted and possibly truncated however you want
 
 
+MODULAR - what are the modular components of this app?
+	- link amassing
+	- crawling
+	- content extraction / storing
