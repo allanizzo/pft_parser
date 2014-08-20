@@ -1,0 +1,29 @@
+PRO FOOTBALL TALK COMMENT PARSER
+
+LETS GO ON AND TALK THROUGH WHAT YOU WANT HERE
+
+the objective is to return the comments, sorted by thumbs up and thumbs down.
+	you could sort by:
+	(1) total votes made
+	(2) total up votes
+	(3) total down votes
+	(4) net positive (up votes - down votes)
+	(5) net negative (down votes - up votes)
+	(6) up ratio (up votes / down votes)
+	(7) down ratio (down votes / up votes)
+
+
+Ultimately, we want to return the:
+	(1) comment metric of choice
+	(2) commenter's username
+	(3) story headline
+	(4) body of comment
+
+	NOTE THAT WE WANT TO BE ABLE TO SORT BY THE METRIC
+
+Crawling
+We will need to crawl pages
+Do we crawl the entire PFT site?
+	
+
+
