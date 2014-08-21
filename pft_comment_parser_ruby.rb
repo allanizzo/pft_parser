@@ -36,6 +36,23 @@ require 'open-uri'
 
 seed_page = "http://profootballtalk.nbcsports.com/"
 
+def link_filterer(url)
+	# lot of technical debt here
+
+	# keywords_we_dont_want = ["wp-", "login", "mailto", "twitter", "facebook", "wordpress"]
+	# keywords_we_do_want = ["profootballtalk"]
+	if  url != nil && url.include?("profootballtalk") == true &&
+		url.include?("facebook") == false &&
+		url.include?("login") == false &&
+		url.include?("mailto") == false &&
+		url.include?("twitter") == false &&
+		url.include?("archive") == false
+		return true
+	else
+		return false
+	end
+end
+
 # this method extracts all profootballtalk.com related links from a page
 # presumably, we can filter 
 def football_link_extractor(url)
@@ -44,7 +61,8 @@ def football_link_extractor(url)
 	a_tag_length = (page.css('a').count - 1) # remember .count goes out over the index by +1
 	(0..a_tag_length).each do |num|
 		link = page.css('a')[num]["href"]
-		if link != nil && link.include?("profootballtalk") && link.include?("login") == false # here is where it checks type of link
+		if link_filterer(link)
+		 # here is where it checks type of link
 			profootball_links << link
 		end
 		profootball_links = profootball_links.uniq
@@ -59,7 +77,7 @@ def link_amasser(seed_url) #AKA crawler
 	links_parsed = []
 	links_to_parse = football_link_extractor(seed_url) 
 	while links_to_parse.empty? == false
-		link_to_crawl = links_to_parse.pop()
+		link_to_crawl = links_to_parse.shift()
 		p link_to_crawl
 		new_links = football_link_extractor(link_to_crawl)
 		for link in new_links
@@ -72,7 +90,10 @@ def link_amasser(seed_url) #AKA crawler
 	return links_parsed
 end
 
-p link_amasser(seed_page)
+link_amasser(seed_page)
+
+
+
 
 # talk it through
 # - need to fill up links_to_parse with the seed page
