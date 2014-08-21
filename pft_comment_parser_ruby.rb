@@ -37,7 +37,7 @@ require 'open-uri'
 seed_page = "http://profootballtalk.nbcsports.com/"
 
 def link_filterer(url)
-	# lot of technical debt here
+	# lot of technical debt here, should figure out much better way to add terms
 
 	# keywords_we_dont_want = ["wp-", "login", "mailto", "twitter", "facebook", "wordpress"]
 	# keywords_we_do_want = ["profootballtalk"]
@@ -62,7 +62,6 @@ def football_link_extractor(url)
 	(0..a_tag_length).each do |num|
 		link = page.css('a')[num]["href"]
 		if link_filterer(link)
-		 # here is where it checks type of link
 			profootball_links << link
 		end
 		profootball_links = profootball_links.uniq
@@ -72,20 +71,28 @@ end
 
 # p football_link_extractor(seed_page)
 
+# need to be able to handle 404 errors, trying with begin, rescue, end block
+
+# think about BREADTH V. DEPTH
+
 def link_amasser(seed_url) #AKA crawler
 	links_to_parse = []
 	links_parsed = []
 	links_to_parse = football_link_extractor(seed_url) 
 	while links_to_parse.empty? == false
-		link_to_crawl = links_to_parse.shift()
-		p link_to_crawl
-		new_links = football_link_extractor(link_to_crawl)
-		for link in new_links
-			if links_parsed.include?(link) == false && links_to_parse.include?(link) == false
-				links_to_parse << link
+		begin
+			link_to_crawl = links_to_parse.shift()
+			p link_to_crawl
+			new_links = football_link_extractor(link_to_crawl)
+			for link in new_links
+				if links_parsed.include?(link) == false && links_to_parse.include?(link) == false
+					links_to_parse << link
+				end
 			end
+			links_parsed << link_to_crawl
+		rescue
+			next	
 		end
-		links_parsed << link_to_crawl
 	end
 	return links_parsed
 end
