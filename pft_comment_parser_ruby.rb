@@ -38,16 +38,23 @@ seed_page = "http://profootballtalk.nbcsports.com/"
 
 def link_filterer(url)
 	# lot of technical debt here, should figure out much better way to add terms
+	# the current filtering below is TERRIBLY written, but does seem to work for now
 
-	# keywords_we_dont_want = ["wp-", "login", "mailto", "twitter", "facebook", "wordpress"]
-	# keywords_we_do_want = ["profootballtalk"]
+	# or we could do it where it had the link_stub and then date format
+	# http://profootballtalk.nbcsports.com/YYYY/MM/DD and then the headline
+
 	if  url != nil && url.include?("profootballtalk") == true &&
 		url.include?("facebook") == false &&
 		url.include?("login") == false &&
 		url.include?("mailto") == false &&
 		url.include?("twitter") == false &&
-		url.include?("archive") == false #&&
-		# url.include?("pft-live")  # has all PFT videos
+		url.include?("archive") == false &&
+		url.include?("pft-live") == false &&
+		url.include?("rumor") == false &&
+		url.include?("home") == false &&
+		url.include?("features") == false &&
+		url.include?("top-stories") == false &&
+		url.include?("videos") == false  # has all PFT videos
 		return true
 	else
 		return false
