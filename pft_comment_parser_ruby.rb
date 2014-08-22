@@ -46,7 +46,8 @@ def link_filterer(url)
 		url.include?("login") == false &&
 		url.include?("mailto") == false &&
 		url.include?("twitter") == false &&
-		url.include?("archive") == false
+		url.include?("archive") == false #&&
+		# url.include?("pft-live")  # has all PFT videos
 		return true
 	else
 		return false
@@ -72,14 +73,54 @@ end
 # p football_link_extractor(seed_page)
 
 # need to be able to handle 404 errors, trying with begin, rescue, end block
+	# ^ got it
 
 # think about BREADTH V. DEPTH
+
+	# some thoughts
+	# - if were doing a full on crawl, of all PFT ever, sorting may be a little less
+	# 	important
+	# - we could develop a method to sort URL's by their date, which would prioritize
+		# crawling links by recent-ness
+		# ^ if we are constantly sorting the links_to_parse list, this may help accomplish it.
+
+testarr = ["http://profootballtalk.nbcsports.com/2014/08/22/report-johnny-manziel-fined-12000-for-flashing-middle-finger/",
+			"http://profootballtalk.nbcsports.com/2014/08/19/nfl-wants-super-bowl-halftime-performers-to-pay-for-the-privilege/",
+			"http://profootballtalk.nbcsports.com/2014/08/20/mike-ditka-wants-anti-redskins-liberals-to-get-off-his-lawn/"
+			]		
+
+# def links_to_parse_sorter(arr)
+# 	# best idea is to create a hash with the url as the key
+# 	# date can be a value on the hash
+
+# 	# each url is a NEW hash within the overall hash
+
+# 	p arr.sort
+
+# 	for url in arr
+# 		link_date = url[37..46]
+# 		p link_date
+# 	end
+
+# 	# link_stub = "http://profootballtalk.nbcsports.com/"
+	
+# 	# need index 37-46 for length
+# 	# p 
+
+# 	# p link_stub.length
+
+# end
+
+# links_to_parse_sorter(testarr)
+
 
 def link_amasser(seed_url) #AKA crawler
 	links_to_parse = []
 	links_parsed = []
 	links_to_parse = football_link_extractor(seed_url) 
 	while links_to_parse.empty? == false
+		p "there are #{links_to_parse.count} links in the links_to_parse array"
+		links_to_parse = links_to_parse.sort.reverse
 		begin
 			link_to_crawl = links_to_parse.shift()
 			p link_to_crawl
